@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item android:id="@+id/navDrawerRecentOrders"
+        android:icon="@drawable/ic_baseline_fastfood_24"
+        android:title="Recent Orders"/>
+    <item android:id="@+id/navDrawerCalendarView"
+        android:icon="@drawable/ic_baseline_calendar_today_24"
+        android:title="Calendar View"/>
 </menu>

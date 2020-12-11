@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#cccccc"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvRecentOrderFragAllFoodItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:text="Food Items"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvRecentOrderFragOrderedFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:text="Ordered From:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvRecentOrderFragPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:text="Price:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvRecentOrderFragDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:text="Date:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvRecentOrderFragTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:text="Time:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvRecentOrderFragAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:text="Address:"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:background="#000000"
+            android:textColor="#ffffff"
+            android:text="Place Order Again" />
+
+
+    </LinearLayout>
+</LinearLayout>

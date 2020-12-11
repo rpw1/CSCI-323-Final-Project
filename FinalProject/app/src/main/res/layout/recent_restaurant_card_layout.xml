@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#cccccc">
+
+    <TextView
+        android:id="@+id/tvRecentOrderRestaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:padding="15dp"
+        android:text="Restaurant"
+        android:textSize="15sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="41dp" />
+</LinearLayout>
