@@ -3,12 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllRestaurantsFragment">
+    tools:context=".AllRestaurantsFragment"
+    android:background="#cccccc">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:background="#cccccc">
+
+        <TextView
+            android:id="@+id/tvAllRestaurants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:text="All Restaurants"
+            android:textSize="20dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allRestaurantsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#cccccc"/>
+    </LinearLayout>
+
 
 </FrameLayout>

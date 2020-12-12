@@ -25,7 +25,8 @@
             android:src="@drawable/ic_baseline_person_24"
             android:onClick="createUserImage"/>
 
-        <TextView
+
+        <EditText
             android:id="@+id/tvUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,9 +36,10 @@
             android:background="#FFFFFF"
             android:hint="Your Name"
             android:padding="5dp"
-            android:textSize="25sp" />
+            android:textSize="18sp"  />
 
-        <TextView
+
+        <EditText
             android:id="@+id/tvUserEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +49,7 @@
             android:background="#FFFFFF"
             android:hint="Your Email"
             android:padding="5dp"
-            android:textSize="25sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btnSignInSignUp"
@@ -59,7 +61,7 @@
             android:backgroundTint="#4A95FF"
             android:onClick="login"
             android:text="Sign In / Sign Up"
-            android:textSize="25sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

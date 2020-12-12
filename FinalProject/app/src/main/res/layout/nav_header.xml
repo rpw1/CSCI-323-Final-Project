@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,10 +28,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
-            android:background="#FFFFFF"
-            android:hint="Your Name"
+            android:text="Your Name"
             android:padding="5dp"
-            android:textSize="10sp" />
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:inputType="textPersonName"/>
 
         <TextView
             android:id="@+id/tvHeaderUserEmail"
@@ -42,10 +42,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:background="#FFFFFF"
-            android:hint="Your Email"
+            android:textColor="#FFFFFF"
+            android:text="Your Email"
             android:padding="5dp"
-            android:textSize="10sp" />
+            android:textSize="15sp"
+            android:inputType="textPersonName"/>
 
 
     </LinearLayout>

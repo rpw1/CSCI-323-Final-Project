@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrdersActivity"
+    android:orientation="vertical"
+    android:background="#cccccc">
+
+    <TextView
+        android:id="@+id/tvOrderDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"
+        android:text="Order Details:"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/tvOrderActAllFoodItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:background="#ffffff"
+        android:text="Food Items"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tvOrderActOrderedFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:background="#ffffff"
+        android:textSize="18sp"
+        android:text="Ordered From:" />
+
+    <TextView
+        android:id="@+id/tvOrderActPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:background="#ffffff"
+        android:textSize="18sp"
+        android:text="Price:" />
+
+    <TextView
+        android:id="@+id/tvOrderActDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:background="#ffffff"
+        android:textSize="18sp"
+        android:text="Date:" />
+
+    <TextView
+        android:id="@+id/tvOrderActTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:background="#ffffff"
+        android:textSize="18sp"
+        android:text="Time:" />
+
+    <TextView
+        android:id="@+id/tvOrderActAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:background="#ffffff"
+        android:textSize="18sp"
+        android:text="Address:" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="10dp"
+        android:background="#ffffff"
+        android:text="Track Order" />
+</LinearLayout>
