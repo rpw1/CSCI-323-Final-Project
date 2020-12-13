@@ -27,7 +27,7 @@
 
 
         <EditText
-            android:id="@+id/tvUsername"
+            android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -40,7 +40,7 @@
 
 
         <EditText
-            android:id="@+id/tvUserEmail"
+            android:id="@+id/editTextUserEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
