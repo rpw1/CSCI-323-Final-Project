@@ -50,7 +50,11 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    //create user with credentials or check credentials
+    /***
+     * This function grabs the user's name and email and saves them in SharedPreferences.
+     * Then, this function sends the user to the HomeActivity
+     * @param view
+     */
     public void login(View view) {
         String name = this.editTextName.getText().toString();
         String email = this.editTextEmail.getText().toString();
@@ -74,7 +78,12 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(this.intent);
         }
     }
-    //method to create dialog for selecting user image
+
+    /**
+     * This method opens a AlertDialogue which allows the user choose a photo from their camera or image gallery.
+     * Then the function sets the image to the userImageView and saves the image in SharedPreferences
+     * @param view
+     */
     public void createUserImage(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View dialogueView = getLayoutInflater().inflate(R.layout.choose_image_alert_dialogue, null);
@@ -136,7 +145,11 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    // I got this here https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
+    /**
+     * This function coverts a bitmap into a string and stores it in SharedPreferences.
+     * I got this here https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
+     * @param bitmap
+     */
     private void addImageToSharedPref(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -146,7 +159,10 @@ public class SignInActivity extends AppCompatActivity {
         this.editor.commit();
     }
 
-
+    /**
+     * This function checks if the user's current device has a camera.
+     * @return
+     */
     private boolean hasCamera() {
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
             return true;
