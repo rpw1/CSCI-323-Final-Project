@@ -10,7 +10,6 @@ public class OrderItem {
     private int orderItemId;
     private String orderItemName;
     private int orderItemPrice;
-    private int orderItemQuantity;
 
     public OrderItem(String orderItemName, int orderItemPrice) {
         this.orderItemName = orderItemName;
@@ -41,11 +40,4 @@ public class OrderItem {
         this.orderItemPrice = orderItemPrice;
     }
 
-    public int getOrderItemQuantity() {
-        return orderItemQuantity;
-    }
-
-    public void setOrderItemQuantity(int orderItemQuantity) {
-        this.orderItemQuantity = orderItemQuantity;
-    }
 }

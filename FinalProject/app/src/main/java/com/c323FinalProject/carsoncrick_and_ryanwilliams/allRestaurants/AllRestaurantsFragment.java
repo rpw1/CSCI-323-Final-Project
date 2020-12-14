@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
@@ -38,17 +39,28 @@ public class AllRestaurantsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getContext();
-//        new Thread(() -> context.deleteDatabase("restaurantDb")).start();
-
         this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
         this.restaurants = restaurantItemDao.getAllRestaurants();
-        Log.v("REST_INFO", "Is this bitch empty? " + this.restaurants.size());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_restaurants, container, false);
+
+        if (this.restaurants.size() == 0) {
+            this.restaurants = restaurantItemDao.getAllRestaurants();
+        }
+        List<OrderItem> orderItemsDao = restaurantItemDao.getAllOrderItems();
+        for (OrderItem orderItem : orderItemsDao) {
+            Log.v("ROOM_INFO", "ORDER ID: " + orderItem.getOrderItemId() + " ORDER NAME: " + orderItem.getOrderItemName());
+        }
+
+        List<Restaurant> restaurantListDao = restaurantItemDao.getAllRestaurants();
+        for (Restaurant restaurant : restaurantListDao) {
+            Log.v("ROOM_INFO", "RESTAURANT ID: " + restaurant.getRestaurantId() + " RESTAURANT NAME: " + restaurant.getRestaurantName());
+        }
+
         this.recyclerView = view.findViewById(R.id.allRestaurantsRecycler);
         this.allRestaurantsAdapter = new AllRestaurantsAdapter(this.context, this.restaurants);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this.context));
