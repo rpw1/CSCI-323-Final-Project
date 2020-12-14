@@ -36,7 +36,7 @@ public class AllRestaurantsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.context = getContext();
 //        new Thread(() -> context.deleteDatabase("restaurantDb")).start();
-        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context.getApplicationContext());
+        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
         new Thread(() -> this.restaurants = restaurantItemDao.getAllRestaurants()).start();
         Log.v("REST_INFO", "Is this bitch empty? " + this.restaurants.size());

@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(getApplicationContext());
+        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this);
 //        new Thread(() -> this.deleteDatabase("restaurantDb")).start();
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
         setUpDatabase();
@@ -155,6 +155,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 }
                 this.restaurantItemDao.addRestaurantOrderItemsMap(restaurantMaps);
+                this.restaurantDatabase.close();
             }
         }).start();
     }
