@@ -21,6 +21,9 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Resta
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class AllRestaurantsFragment extends Fragment {
 
@@ -36,9 +39,10 @@ public class AllRestaurantsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.context = getContext();
 //        new Thread(() -> context.deleteDatabase("restaurantDb")).start();
+
         this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
-        new Thread(() -> this.restaurants = restaurantItemDao.getAllRestaurants()).start();
+        this.restaurants = restaurantItemDao.getAllRestaurants();
         Log.v("REST_INFO", "Is this bitch empty? " + this.restaurants.size());
     }
 
@@ -47,8 +51,8 @@ public class AllRestaurantsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_restaurants, container, false);
         this.recyclerView = view.findViewById(R.id.allRestaurantsRecycler);
         this.allRestaurantsAdapter = new AllRestaurantsAdapter(this.context, this.restaurants);
-        this.recyclerView.setAdapter(this.allRestaurantsAdapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this.context));
+        this.recyclerView.setAdapter(this.allRestaurantsAdapter);
         return view;
     }
 }

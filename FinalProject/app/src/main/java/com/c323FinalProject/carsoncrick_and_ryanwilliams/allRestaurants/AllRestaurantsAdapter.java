@@ -34,7 +34,8 @@ public class AllRestaurantsAdapter extends RecyclerView.Adapter<AllRestaurantsAd
     @Override
     public void onBindViewHolder(@NonNull AllRestaurantsViewHolder holder, int position) {
         Restaurant restaurant = this.restaurants.get(position);
-        holder.textViewName.setText(restaurant.getRestaurantName());
+        if (restaurant != null)
+            holder.textViewName.setText(restaurant.getRestaurantName());
     }
 
     @Override
@@ -48,7 +49,7 @@ public class AllRestaurantsAdapter extends RecyclerView.Adapter<AllRestaurantsAd
 
         public AllRestaurantsViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.findViewById(R.id.tvAllRestaurantItem);
+            this.textViewName = itemView.findViewById(R.id.tvAllRestaurantItem);
         }
     }
 }
