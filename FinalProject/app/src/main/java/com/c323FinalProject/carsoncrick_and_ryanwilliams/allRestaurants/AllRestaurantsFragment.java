@@ -1,31 +1,23 @@
 package com.c323FinalProject.carsoncrick_and_ryanwilliams.allRestaurants;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantOrderItemMap;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class AllRestaurantsFragment extends Fragment {
 
