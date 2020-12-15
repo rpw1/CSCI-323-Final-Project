@@ -39,6 +39,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
         holder.textViewName.setText(orderItem.getOrderItemName());
         holder.textViewPrice.setText("$" + orderItem.getOrderItemPrice());
         holder.textViewQuantity.setText(quantity + "");
+        holder.quantity = quantity;
     }
 
     @Override
