@@ -20,10 +20,11 @@
 
     <EditText
         android:id="@+id/tvDeliveryAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="#FFFFFF"
         android:padding="10dp"
         android:textSize="18sp"
@@ -34,10 +35,11 @@
 
     <EditText
         android:id="@+id/tvSpecialInstructions"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="#ffffff"
         android:padding="10dp"
         android:textSize="18sp"
@@ -52,6 +54,7 @@
         android:layout_marginTop="50dp"
         android:background="#ffffff"
         android:layout_gravity="center_horizontal"
+        android:padding="5dp"
         android:text="Modify Order"
         android:onClick="modifyOrder"/>
 
@@ -63,6 +66,7 @@
         android:background="#ffffff"
         android:layout_gravity="center_horizontal"
         android:text="Place Order"
+        android:padding="5dp"
         android:onClick="placeOrder"/>
 
 </LinearLayout>

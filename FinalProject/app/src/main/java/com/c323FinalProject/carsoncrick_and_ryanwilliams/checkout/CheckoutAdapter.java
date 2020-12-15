@@ -63,7 +63,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
             this.buttonIncrease.setOnClickListener(this);
             this.buttonDecrease.setOnClickListener(this);
         }
-
+        // food item's + and - button handler
         @Override
         public void onClick(View view) {
             if (view.getId() == this.buttonIncrease.getId()) {

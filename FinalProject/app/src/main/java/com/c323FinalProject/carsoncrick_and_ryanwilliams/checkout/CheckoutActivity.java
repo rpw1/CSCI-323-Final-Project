@@ -1,6 +1,8 @@
 package com.c323FinalProject.carsoncrick_and_ryanwilliams.checkout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.FtsOptions;
@@ -46,6 +48,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 this.orderItems.add(currentItem);
         }
         this.checkoutAdapter = new CheckoutAdapter(this, this.orderItems);
+        //attach item touch helper to recycler view
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         this.recyclerView.setAdapter(this.checkoutAdapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -74,4 +78,20 @@ public class CheckoutActivity extends AppCompatActivity {
         intent.putExtra("address", this.textViewAddress.getText().toString());
         startActivity(intent);
     }
+
+    //right swipe handler for recycler view items
+    //Source: https://www.youtube.com/watch?v=M1XEqqo6Ktg&ab_channel=CodingWithMitch
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            //delete item and notify dataset
+            orderItems.remove(orderItems.get(viewHolder.getAdapterPosition()));
+            checkoutAdapter.notifyDataSetChanged();
+        }
+    };
 }

@@ -44,6 +44,7 @@
             android:layout_weight="1"
             android:background="#cccccc"
             android:text="10"
+            android:textAlignment="center"
             android:textSize="18sp" />
 
         <ImageButton
