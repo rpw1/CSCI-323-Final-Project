@@ -61,8 +61,11 @@ public class RestaurantFoodItemsFragment extends Fragment {
         this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
         this.button = view.findViewById(R.id.btnCheckOut);
         this.button.setOnClickListener(btnView -> {
+            for (int i = 0; i < this.itemsAdapter.getItemCount(); i++) {
+                this.restaurantItemDao.updateOrderItems(this.itemsAdapter.orderItems.get(i));
+            }
             Intent intent = new Intent(context, CheckoutActivity.class);
-            intent.putExtra("order", this.itemsAdapter.orderItems.toArray());
+            intent.putExtra("id", this.itemsInterface.getRestaurantId());
             intent.putExtra("name", this.itemsInterface.getRestaurantName());
             startActivity(intent);
         });

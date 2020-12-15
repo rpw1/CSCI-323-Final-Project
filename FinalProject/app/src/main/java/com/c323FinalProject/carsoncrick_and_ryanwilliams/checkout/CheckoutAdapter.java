@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
 
+import java.util.List;
+
 public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.CheckoutViewHolder> {
 
     Context context;
-    OrderItem[] orderItems;
+    List<OrderItem> orderItems;
 
-    public CheckoutAdapter(Context context, OrderItem[] orderItems) {
+    public CheckoutAdapter(Context context, List<OrderItem> orderItems) {
         this.context = context;
         this.orderItems = orderItems;
     }
@@ -32,18 +34,16 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
 
     @Override
     public void onBindViewHolder(@NonNull CheckoutViewHolder holder, int position) {
-        OrderItem orderItem = this.orderItems[position];
+        OrderItem orderItem = this.orderItems.get(position);
         int quantity = orderItem.getOrderItemQuantity();
-        if (quantity > 0) {
-            holder.textViewName.setText(orderItem.getOrderItemName());
-            holder.textViewPrice.setText("$" + orderItem.getOrderItemPrice());
-            holder.textViewQuantity.setText(quantity + "");
-        }
+        holder.textViewName.setText(orderItem.getOrderItemName());
+        holder.textViewPrice.setText("$" + orderItem.getOrderItemPrice());
+        holder.textViewQuantity.setText(quantity + "");
     }
 
     @Override
     public int getItemCount() {
-        return this.orderItems.length;
+        return this.orderItems.size();
     }
 
     public class CheckoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -72,7 +72,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
                 this.quantity--;
                 this.textViewQuantity.setText(this.quantity + "");
             }
-            orderItems[getAdapterPosition()].setOrderItemQuantity(quantity);
+            orderItems.get(getAdapterPosition()).setOrderItemQuantity(quantity);
         }
     }
 }

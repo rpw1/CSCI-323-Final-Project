@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class RestaurantFoodItemsAdapter extends RecyclerView.Adapter<RestaurantF
         this.context = context;
         this.orderItems = orderItems;
     }
+
 
     @NonNull
     @Override

@@ -19,13 +19,14 @@ public class OrdersActivity extends AppCompatActivity {
     textViewDate, textViewTime, textViewAddress;
     Button buttonTrackOrder;
     String restaurantName;
+    int restaurantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
         Intent intent = getIntent();
-        this.orderItems = (OrderItem[]) intent.getSerializableExtra("order");
+        this.restaurantId = intent.getIntExtra("id", -1);
         this.restaurantName = intent.getStringExtra("name");
         this.textViewFoodItem = findViewById(R.id.tvOrderActAllFoodItems);
         this.textViewOrderedFrom = findViewById(R.id.tvOrderActAllFoodItems);

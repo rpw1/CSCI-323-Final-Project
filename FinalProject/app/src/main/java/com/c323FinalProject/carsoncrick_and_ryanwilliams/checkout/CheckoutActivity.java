@@ -15,27 +15,51 @@ import android.widget.TextView;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.OrdersActivity;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantOrderItemMap;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CheckoutActivity extends AppCompatActivity {
 
     String restaurantName;
-    OrderItem[] orderItems;
+    List<OrderItem> orderItems;
     RecyclerView recyclerView;
     EditText textViewAddress;
     CheckoutAdapter checkoutAdapter;
+    int restaurantId;
+    RestaurantDatabase restaurantDatabase;
+    RestaurantItemDao restaurantItemDao;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.orderItems = new ArrayList<>();
+        this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
+        List<RestaurantOrderItemMap> restaurantOrderItemMaps = this.restaurantItemDao.getOrderItemFromMap(this.restaurantId);
+        for (RestaurantOrderItemMap orderItemMap : restaurantOrderItemMaps) {
+            OrderItem currentItem = this.restaurantItemDao.getOrderItemById(orderItemMap.orderItemId);
+            if (currentItem.getOrderItemQuantity() > 0)
+                this.orderItems.add(currentItem);
+        }
+        this.checkoutAdapter = new CheckoutAdapter(this, this.orderItems);
+        this.recyclerView.setAdapter(this.checkoutAdapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this);
         Intent intent = getIntent();
-        this.orderItems = (OrderItem[]) intent.getSerializableExtra("order");
+        this.restaurantId = intent.getIntExtra("id", -1);
         this.restaurantName = intent.getStringExtra("name");
         this.recyclerView = findViewById(R.id.checkoutRecycler);
-        this.checkoutAdapter = new CheckoutAdapter(this, this.orderItems);
-        this.recyclerView.setAdapter(this.checkoutAdapter);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
         this.textViewAddress = findViewById(R.id.tvDeliveryAddress);
     }
 
@@ -45,8 +69,9 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void placeOrder(View view) {
         Intent intent = new Intent(this, OrdersActivity.class);
-        intent.putExtra("order", this.orderItems);
+        intent.putExtra("id", restaurantId);
         intent.putExtra("name", this.restaurantName);
         intent.putExtra("address", this.textViewAddress.getText().toString());
+        startActivity(intent);
     }
 }
