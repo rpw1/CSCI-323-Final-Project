@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -79,8 +80,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch(id){
             case R.id.navDrawerRecentOrders:
+                    Intent i = new Intent(this, NavDrawerSelectionActivity.class);
+                    //pass the selection to the activity so it can inflate the correct fragment
+                    i.putExtra("selection", R.id.navDrawerRecentOrders);
+                    startActivity(i);
                 break;
             case R.id.navDrawerCalendarView:
+                Intent iTwo = new Intent(this, NavDrawerSelectionActivity.class);
+                //pass the selection to the activity so it can inflate the correct fragment
+                iTwo.putExtra("selection", R.id.navDrawerCalendarView);
+                startActivity(iTwo);
                 break;
         }
         return true;
