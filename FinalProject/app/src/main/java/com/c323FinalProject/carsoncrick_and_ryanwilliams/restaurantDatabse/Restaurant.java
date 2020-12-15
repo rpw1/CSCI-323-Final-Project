@@ -10,9 +10,11 @@ public class Restaurant {
     @PrimaryKey(autoGenerate = true)
     @NonNull private int restaurantId;
     private String restaurantName;
+    private boolean isFavorite;
 
     public Restaurant(String restaurantName) {
         this.restaurantName = restaurantName;
+        this.isFavorite = false;
     }
 
     public int getRestaurantId() {
@@ -31,5 +33,12 @@ public class Restaurant {
         this.restaurantName = restaurantName;
     }
 
+    public boolean getIsFavorite() {
+        return this.isFavorite;
+    }
+
+    public void setFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 
 }

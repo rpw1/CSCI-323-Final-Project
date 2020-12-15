@@ -19,6 +19,7 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Order
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantOrderItemMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class AllRestaurantsFragment extends Fragment {
         this.context = getContext();
         this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
-        this.restaurants = restaurantItemDao.getAllRestaurants();
+        this.restaurants = this.restaurantItemDao.getAllRestaurants();
     }
 
     @Override
@@ -50,15 +51,6 @@ public class AllRestaurantsFragment extends Fragment {
 
         if (this.restaurants.size() == 0) {
             this.restaurants = restaurantItemDao.getAllRestaurants();
-        }
-        List<OrderItem> orderItemsDao = restaurantItemDao.getAllOrderItems();
-        for (OrderItem orderItem : orderItemsDao) {
-            Log.v("ROOM_INFO", "ORDER ID: " + orderItem.getOrderItemId() + " ORDER NAME: " + orderItem.getOrderItemName());
-        }
-
-        List<Restaurant> restaurantListDao = restaurantItemDao.getAllRestaurants();
-        for (Restaurant restaurant : restaurantListDao) {
-            Log.v("ROOM_INFO", "RESTAURANT ID: " + restaurant.getRestaurantId() + " RESTAURANT NAME: " + restaurant.getRestaurantName());
         }
 
         this.recyclerView = view.findViewById(R.id.allRestaurantsRecycler);

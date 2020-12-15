@@ -30,7 +30,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
-//            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
+            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
             setUpDatabase();
         }
         return INSTANCE;
@@ -48,7 +48,6 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         new Thread(() -> {
             RestaurantItemDao restaurantItemDao = INSTANCE.getRestaurantItemDao();
             List<Restaurant> restaurantItems = restaurantItemDao.getAllRestaurants();
-            Log.v("ROOM_INFO", "Restaurants: " + restaurantItems.size());
             if (restaurantItems.size() == 0) {
                 Restaurant[] restaurantsList = new Restaurant[]{
                         new Restaurant("McDonalds"),
@@ -145,11 +144,12 @@ public abstract class RestaurantDatabase extends RoomDatabase {
                     for (int j = 0; j < currentOrderItemArray.length; j++) {
                         RestaurantOrderItemMap currentMap = new RestaurantOrderItemMap();
                         currentMap.restaurantId = i + 1;
-                        currentMap.orderItemId = j + 1;
+                        currentMap.orderItemId = position + 1;
                         restaurantMaps[position] = currentMap;
                         position++;
                     }
                 }
+
                 restaurantItemDao.addRestaurantOrderItemsMap(restaurantMaps);
             }
         }).start();

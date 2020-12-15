@@ -36,8 +36,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
     SharedPreferences sharedPreferences;
-    RestaurantItemDao restaurantItemDao;
-    RestaurantDatabase restaurantDatabase;
 
 
     @Override

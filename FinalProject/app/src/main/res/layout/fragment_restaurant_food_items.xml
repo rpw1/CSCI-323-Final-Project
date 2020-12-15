@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#cccccc"
-    tools:context=".RestaurantFoodItemsFragment">
+    tools:context=".restaurantFoodItems.RestaurantFoodItemsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurantFoodItemRecycler"

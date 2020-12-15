@@ -51,4 +51,10 @@ public interface RestaurantItemDao {
     @Query("SELECT * FROM order_items WHERE orderItemId= :id")
     OrderItem getOrderItemById(int id);
 
+    @Query("SELECT * FROM restaurantorderitemmap")
+    List<RestaurantOrderItemMap> getRestaurantOrderItems();
+
+    @Query("SELECT * FROM restaurantorderitemmap WHERE restaurant_reference= :restaurant_id")
+    List<RestaurantOrderItemMap> getOrderItemFromMap(int restaurant_id);
+
 }

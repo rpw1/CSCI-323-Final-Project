@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragRestaurantFoodItems"
-        android:name="com.c323FinalProject.carsoncrick_and_ryanwilliams.RestaurantFoodItemsFragment"
+        android:name="com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantFoodItems.RestaurantFoodItemsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
