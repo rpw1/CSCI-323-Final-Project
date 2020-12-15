@@ -33,7 +33,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <activity android:name=".OrdersActivity" />
-        <activity android:name=".CheckoutActivity" />
+        <activity android:name=".checkout.CheckoutActivity" />
         <activity android:name=".RestaurantActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignInActivity">

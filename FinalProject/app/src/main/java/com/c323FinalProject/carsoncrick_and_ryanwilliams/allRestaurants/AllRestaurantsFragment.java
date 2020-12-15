@@ -36,6 +36,7 @@ public class AllRestaurantsFragment extends Fragment {
     AllRestaurantsAdapter allRestaurantsAdapter;
     List<Restaurant> restaurants = new ArrayList<>();
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

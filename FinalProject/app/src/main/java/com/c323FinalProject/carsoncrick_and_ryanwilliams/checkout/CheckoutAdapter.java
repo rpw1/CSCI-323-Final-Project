@@ -1,10 +1,9 @@
-package com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantFoodItems;
+package com.c323FinalProject.carsoncrick_and_ryanwilliams.checkout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,46 +13,46 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.CheckoutViewHolder> {
 
-public class RestaurantFoodItemsAdapter extends RecyclerView.Adapter<RestaurantFoodItemsAdapter.RestaurantFoodItemsViewHolder> {
-
-    List<OrderItem> orderItems;
     Context context;
+    OrderItem[] orderItems;
 
-    public RestaurantFoodItemsAdapter(Context context, List<OrderItem> orderItems) {
+    public CheckoutAdapter(Context context, OrderItem[] orderItems) {
         this.context = context;
         this.orderItems = orderItems;
     }
 
     @NonNull
     @Override
-    public RestaurantFoodItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CheckoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(this.context).inflate(R.layout.food_item_layout, parent, false);
-        return new RestaurantFoodItemsViewHolder(view);
+        return new CheckoutViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RestaurantFoodItemsViewHolder holder, int position) {
-        OrderItem orderItem = this.orderItems.get(position);
-        holder.textViewName.setText(orderItem.getOrderItemName());
-        holder.textViewPrice.setText("$" + orderItem.getOrderItemPrice());
-        holder.textViewQuantity.setText(0 + "");
+    public void onBindViewHolder(@NonNull CheckoutViewHolder holder, int position) {
+        OrderItem orderItem = this.orderItems[position];
+        int quantity = orderItem.getOrderItemQuantity();
+        if (quantity > 0) {
+            holder.textViewName.setText(orderItem.getOrderItemName());
+            holder.textViewPrice.setText("$" + orderItem.getOrderItemPrice());
+            holder.textViewQuantity.setText(quantity + "");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return orderItems.size();
+        return this.orderItems.length;
     }
 
-    public class RestaurantFoodItemsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class CheckoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         int quantity = 0;
         TextView textViewName, textViewPrice, textViewQuantity;
         ImageButton buttonIncrease, buttonDecrease;
 
-        public RestaurantFoodItemsViewHolder(@NonNull View itemView) {
+        public CheckoutViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textViewName = itemView.findViewById(R.id.tvFoodItemName);
             this.textViewPrice = itemView.findViewById(R.id.tvFoodItemPrice);
@@ -73,7 +72,7 @@ public class RestaurantFoodItemsAdapter extends RecyclerView.Adapter<RestaurantF
                 this.quantity--;
                 this.textViewQuantity.setText(this.quantity + "");
             }
-            orderItems.get(getAdapterPosition()).setOrderItemQuantity(quantity);
+            orderItems[getAdapterPosition()].setOrderItemQuantity(quantity);
         }
     }
 }
