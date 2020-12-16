@@ -4,12 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -40,6 +43,8 @@ public class SignInActivity extends AppCompatActivity {
         this.editTextName = findViewById(R.id.editTextUsername);
         this.editTextEmail = findViewById(R.id.editTextUserEmail);
         this.userImageView = findViewById(R.id.userImageButton);
+
+        createNotificationChannel();
 
         this.intent = new Intent(this, HomeActivity.class);
         HashMap<String, String> loginInfo = (HashMap<String, String>) sharedPreferences.getAll();
@@ -167,5 +172,18 @@ public class SignInActivity extends AppCompatActivity {
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
             return true;
         return false;
+    }
+
+    /**
+     * Creates notification channel so our program is able to send out notificaitons
+     */
+    public void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("serviceNotification", "program channel", importance);
+            channel.setDescription("");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

@@ -2,18 +2,24 @@ package com.c323FinalProject.carsoncrick_and_ryanwilliams.checkout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.FtsOptions;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.DeliveryTimeService;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.OrdersActivity;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
@@ -23,6 +29,7 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Resta
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -71,11 +78,13 @@ public class CheckoutActivity extends AppCompatActivity {
         finish();
     }
 
+    //place order button handler
     public void placeOrder(View view) {
         Intent intent = new Intent(this, OrdersActivity.class);
         intent.putExtra("id", restaurantId);
         intent.putExtra("name", this.restaurantName);
         intent.putExtra("address", this.textViewAddress.getText().toString());
+        beginService();
         startActivity(intent);
     }
 
@@ -94,4 +103,22 @@ public class CheckoutActivity extends AppCompatActivity {
             checkoutAdapter.notifyDataSetChanged();
         }
     };
+
+    //starts the Intent Service and passes it the delivery time to keep track of it
+    public void beginService(){
+        /** GET DISTANCE BETWEEN RESTAURANT AND DELIVERY ADDRESS
+         * int distanceBetween =
+         */
+        int random = (int) (Math.random() * ((100-5)+1))+5;
+        Log.v("stuff", "random num is " + random);
+        /**
+         * PLACE HOLDER DISTANCE BETWEEN RESTAURANT AND ADDRESS NUMBER, REPLACE THE 50
+         */
+        double delivery_time = (50.0/100.0)* random;
+
+        //pass this value to the intent service
+        Intent toService = new Intent(this, DeliveryTimeService.class);
+        toService.putExtra("delivery time", delivery_time);
+        startService(toService);
+    }
 }
