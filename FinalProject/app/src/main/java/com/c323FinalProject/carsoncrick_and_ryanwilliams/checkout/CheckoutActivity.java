@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.DeliveryTimeService;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.OrdersActivity;
@@ -74,18 +75,27 @@ public class CheckoutActivity extends AppCompatActivity {
         this.textViewAddress = findViewById(R.id.tvDeliveryAddress);
     }
 
+    /**
+     * This function returns the user to the previous activity where they can modify their order.
+     * @param view
+     */
     public void modifyOrder(View view) {
         finish();
     }
 
     //place order button handler
     public void placeOrder(View view) {
-        Intent intent = new Intent(this, OrdersActivity.class);
-        intent.putExtra("id", restaurantId);
-        intent.putExtra("name", this.restaurantName);
-        intent.putExtra("address", this.textViewAddress.getText().toString());
-        beginService();
-        startActivity(intent);
+        String addressString = this.textViewAddress.getText().toString();
+        if (!addressString.equals("Delivery Address: ")) {
+            Intent intent = new Intent(this, OrdersActivity.class);
+            intent.putExtra("id", restaurantId);
+            intent.putExtra("name", this.restaurantName);
+            intent.putExtra("address", addressString);
+            beginService();
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Error: Please enter a delivery address", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //right swipe handler for recycler view items

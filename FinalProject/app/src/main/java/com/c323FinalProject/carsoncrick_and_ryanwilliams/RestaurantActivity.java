@@ -4,16 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantOrderItemMap;
+
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantFoodItems.RestaurantFoodItemsFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity implements RestaurantFoodItemsFragment.RestaurantFoodItemsInterface {
 

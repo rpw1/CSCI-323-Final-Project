@@ -47,6 +47,15 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
         return this.orderItems.size();
     }
 
+    /**
+     * This function removes the quantities from every order item.
+     */
+    public void removeQuantities() {
+        for (OrderItem orderItem : this.orderItems) {
+            orderItem.setOrderItemQuantity(0);
+        }
+    }
+
     public class CheckoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         int quantity = 0;

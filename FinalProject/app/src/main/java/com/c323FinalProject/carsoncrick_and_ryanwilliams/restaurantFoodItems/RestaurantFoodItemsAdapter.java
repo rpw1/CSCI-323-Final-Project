@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,10 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantFoodItemsAdapter extends RecyclerView.Adapter<RestaurantFoodItemsAdapter.RestaurantFoodItemsViewHolder> {
@@ -48,6 +44,15 @@ public class RestaurantFoodItemsAdapter extends RecyclerView.Adapter<RestaurantF
     @Override
     public int getItemCount() {
         return orderItems.size();
+    }
+
+    /**
+     * This function removes the quantities from every order item.
+     */
+    public void removeQuantities() {
+        for (OrderItem orderItem : this.orderItems) {
+            orderItem.setOrderItemQuantity(0);
+        }
     }
 
     public class RestaurantFoodItemsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
