@@ -2,6 +2,7 @@ package com.c323FinalProject.carsoncrick_and_ryanwilliams.allRestaurants;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class AllRestaurantsAdapter extends RecyclerView.Adapter<AllRestaurantsAd
     @Override
     public void onBindViewHolder(@NonNull AllRestaurantsViewHolder holder, int position) {
         Restaurant restaurant = this.restaurants.get(position);
+        Log.v("stuff", (restaurant == null) + "");
         if (restaurant != null)
             holder.textViewName.setText(restaurant.getRestaurantName());
     }

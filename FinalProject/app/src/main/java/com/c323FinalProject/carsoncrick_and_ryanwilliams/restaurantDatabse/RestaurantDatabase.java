@@ -2,6 +2,9 @@ package com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.room.Database;
@@ -9,6 +12,10 @@ import androidx.room.FtsOptions;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -16,8 +23,9 @@ import java.util.concurrent.TimeUnit;
 
 @Database(entities = {Restaurant.class, OrderItem.class, RestaurantOrderItemMap.class }, version = 1)
 public abstract class RestaurantDatabase extends RoomDatabase {
-    public abstract RestaurantItemDao getRestaurantItemDao();
 
+    private static ArrayList<String> imageStrings;
+    public abstract RestaurantItemDao getRestaurantItemDao();
     private static RestaurantDatabase INSTANCE;
 
     /**
@@ -31,9 +39,12 @@ public abstract class RestaurantDatabase extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
 //            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
-            setUpDatabase();
+            imageStrings = new ArrayList<>();
+            compressImages(context);
+            setUpDatabase(imageStrings);
         }
         return INSTANCE;
+
     }
 
     public static void destroyInstance() {
@@ -44,20 +55,21 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * This function adds Restaurants to the database if the database is empty.
      * I got this here https://stackoverflow.com/questions/53459317/saving-multiple-arraylist-in-room-database-best-way-of-doing-it
      */
-    private static void setUpDatabase() {
+    private static void setUpDatabase(ArrayList<String> imageStrings) {
         new Thread(() -> {
             RestaurantItemDao restaurantItemDao = INSTANCE.getRestaurantItemDao();
             List<Restaurant> restaurantItems = restaurantItemDao.getAllRestaurants();
+
             if (restaurantItems.size() == 0) {
                 Restaurant[] restaurantsList = new Restaurant[]{
-                        new Restaurant("McDonalds"),
-                        new Restaurant("Chipotle"),
-                        new Restaurant("Noodles & Company"),
-                        new Restaurant("Starbucks"),
-                        new Restaurant("McAlister's Deli"),
-                        new Restaurant("Five Guys"),
-                        new Restaurant("Panda Express"),
-                        new Restaurant("Domino's Pizza")
+                        new Restaurant("McDonalds", "placeholder", imageStrings.get(0), imageStrings.get(1), imageStrings.get(2)),
+                        new Restaurant("Chipotle", "placeholder", imageStrings.get(3), imageStrings.get(4), imageStrings.get(5)),
+                        new Restaurant("Noodles & Company", "placeholder", imageStrings.get(6), imageStrings.get(7), imageStrings.get(8)),
+                        new Restaurant("Starbucks", "placeholder", imageStrings.get(9), imageStrings.get(10), imageStrings.get(11)),
+                        new Restaurant("McAlister's Deli", "placeholder", imageStrings.get(12), imageStrings.get(13), imageStrings.get(14)),
+                        new Restaurant("Five Guys", "placeholder", imageStrings.get(15), imageStrings.get(16), imageStrings.get(17)),
+                        new Restaurant("Panda Express", "placeholder", imageStrings.get(18), imageStrings.get(19), imageStrings.get(20)),
+                        new Restaurant("Domino's Pizza", "placeholder", imageStrings.get(21), imageStrings.get(22), imageStrings.get(23))
                 };
 
                 restaurantItemDao.insertRestaurants(restaurantsList);
@@ -164,6 +176,81 @@ public abstract class RestaurantDatabase extends RoomDatabase {
             length += objectArray.length;
         }
         return length;
+    }
+
+    /**
+     * Gets all drawable restaurant images turns them into bitmaps, compresses them
+     * into byte arrays, and then turns them into base64 strings  to be stored in the database
+     * Image -> Bitmaps -> Byte Array -> Base 64 String
+     * @param context
+     * @return
+     */
+    public static void compressImages(Context context){
+      new Thread(() -> {
+
+            ArrayList<Bitmap> bitmaps = new ArrayList<>();
+
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.mcdonalds1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.mcdonalds2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.mcdonalds3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.chipotle1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.chipotle2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.chipotle3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.noodles1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.noodles2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.noodles3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.starbucks1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.starbucks2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.starbucks3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.mcalisters1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.mcalisters2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.mcalisters3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.fiveguys1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.fiveguys2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.fiveguys3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.panda1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.panda2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.panda3));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.dominos1));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.dominos2));
+            bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.dominos3));
+
+            //compress to byte arrays then to base 64
+            for(int i = 0; i < bitmaps.size(); i++){
+                Log.v("stuff", i+"");
+                Bitmap bitmap = bitmaps.get(i);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                imageStrings.add(Base64.encodeToString(byteArray, Base64.DEFAULT));
+            }
+
+
+        }).start();
     }
 
 }

@@ -22,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.util.Base64;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,6 +48,7 @@ public class SignInActivity extends AppCompatActivity {
         this.userImageView = findViewById(R.id.userImageButton);
 
         createNotificationChannel();
+        RestaurantDatabase database = RestaurantDatabase.getAppDatabase(this);
 
         this.intent = new Intent(this, HomeActivity.class);
         HashMap<String, String> loginInfo = (HashMap<String, String>) sharedPreferences.getAll();
@@ -53,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         if (loginInfo.containsKey("name") && loginInfo.containsKey("email")) {
             startActivity(this.intent);
         }
+
     }
 
     /***
@@ -175,7 +180,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     /**
-     * Creates notification channel so our program is able to send out notificaitons
+     * Creates notification channel so our program is able to send out notifications
      */
     public void createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
