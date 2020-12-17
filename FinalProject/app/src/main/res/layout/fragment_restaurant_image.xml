@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".RestaurantImageFragment">
 
-    <ImageView
-        android:id="@+id/restaurantImageView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/restaurantImageRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        tools:src="@tools:sample/avatars" />
+        android:layout_height="250dp" />
 </FrameLayout>

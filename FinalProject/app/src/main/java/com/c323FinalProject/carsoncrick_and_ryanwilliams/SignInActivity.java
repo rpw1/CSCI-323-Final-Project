@@ -66,7 +66,7 @@ public class SignInActivity extends AppCompatActivity {
         createNotificationChannel();
         getUserLocation();
         try {
-            RestaurantDatabase database = RestaurantDatabase.getAppDatabase(this, latitude, longitude);
+            RestaurantDatabase database = RestaurantDatabase.createAppDatabase(this, latitude, longitude);
         } catch (IOException e) {
             Log.v("stuff", "Something went wrong while creating db, potentially with calling the apis in getRestaurantLocations");
         }

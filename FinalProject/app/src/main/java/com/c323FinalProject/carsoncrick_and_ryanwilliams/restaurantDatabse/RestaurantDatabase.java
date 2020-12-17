@@ -51,7 +51,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * @param context
      * @return
      */
-    public static RestaurantDatabase getAppDatabase(Context context, double latitude, double longitude) throws IOException {
+    public static RestaurantDatabase createAppDatabase(Context context, double latitude, double longitude) throws IOException {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
@@ -81,6 +81,13 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         return INSTANCE;
 
     }
+
+    //gets reference of previously created database
+    public static RestaurantDatabase getAppDatabase(Context cxt){
+        return INSTANCE;
+    }
+
+
 
     public static void destroyInstance() {
         INSTANCE = null;
