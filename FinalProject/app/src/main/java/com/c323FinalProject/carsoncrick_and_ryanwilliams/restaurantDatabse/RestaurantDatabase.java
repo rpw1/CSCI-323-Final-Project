@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Base64;
 import android.util.Log;
 
@@ -14,7 +16,17 @@ import androidx.room.RoomDatabase;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -30,6 +42,8 @@ public abstract class RestaurantDatabase extends RoomDatabase {
     private static RestaurantDatabase INSTANCE;
     private static Thread databaseThread;
     private static Thread imageThread;
+    private static Thread locationsThread;
+    private static ArrayList<String> restaurantLocations;
 
     /**
      * This function grabs the database instance and creates one if INSTANCE is null
@@ -37,13 +51,15 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * @param context
      * @return
      */
-    public static RestaurantDatabase getAppDatabase(Context context) {
+    public static RestaurantDatabase getAppDatabase(Context context, double latitude, double longitude) throws IOException {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
             new Thread(() -> context.deleteDatabase("restaurantDb")).start();
             imageStrings = new ArrayList<>();
             compressImages(context);
+            restaurantLocations = new ArrayList<>();
+            getRestaurantLocations(context, latitude, longitude);
             setUpDatabase(imageStrings);
             int NUM_CORES = Runtime.getRuntime().availableProcessors();
             ThreadPoolExecutor executor = new ThreadPoolExecutor(NUM_CORES * 2,
@@ -81,14 +97,14 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
             if (restaurantItems.size() == 0) {
                 Restaurant[] restaurantsList = new Restaurant[]{
-                        new Restaurant("McDonalds", "placeholder", imageStrings.get(0), imageStrings.get(1), imageStrings.get(2)),
-                        new Restaurant("Chipotle", "placeholder", imageStrings.get(3), imageStrings.get(4), imageStrings.get(5)),
-                        new Restaurant("Noodles & Company", "placeholder", imageStrings.get(6), imageStrings.get(7), imageStrings.get(8)),
-                        new Restaurant("Starbucks", "placeholder", imageStrings.get(9), imageStrings.get(10), imageStrings.get(11)),
-                        new Restaurant("McAlister's Deli", "placeholder", imageStrings.get(12), imageStrings.get(13), imageStrings.get(14)),
-                        new Restaurant("Five Guys", "placeholder", imageStrings.get(15), imageStrings.get(16), imageStrings.get(17)),
-                        new Restaurant("Panda Express", "placeholder", imageStrings.get(18), imageStrings.get(19), imageStrings.get(20)),
-                        new Restaurant("Domino's Pizza", "placeholder", imageStrings.get(21), imageStrings.get(22), imageStrings.get(23))
+                        new Restaurant("McDonalds", restaurantLocations.get(0), imageStrings.get(0), imageStrings.get(1), imageStrings.get(2)),
+                        new Restaurant("Chipotle", restaurantLocations.get(1), imageStrings.get(3), imageStrings.get(4), imageStrings.get(5)),
+                        new Restaurant("Noodles & Company", restaurantLocations.get(2), imageStrings.get(6), imageStrings.get(7), imageStrings.get(8)),
+                        new Restaurant("Starbucks", restaurantLocations.get(3), imageStrings.get(9), imageStrings.get(10), imageStrings.get(11)),
+                        new Restaurant("McAlister's Deli", restaurantLocations.get(4), imageStrings.get(12), imageStrings.get(13), imageStrings.get(14)),
+                        new Restaurant("Five Guys", restaurantLocations.get(5), imageStrings.get(15), imageStrings.get(16), imageStrings.get(17)),
+                        new Restaurant("Panda Express", restaurantLocations.get(6), imageStrings.get(18), imageStrings.get(19), imageStrings.get(20)),
+                        new Restaurant("Domino's Pizza", restaurantLocations.get(7), imageStrings.get(21), imageStrings.get(22), imageStrings.get(23))
                 };
 
                 restaurantItemDao.insertRestaurants(restaurantsList);
@@ -270,6 +286,92 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
 
         });
+    }
+
+    //gets all locations of restaurants
+    public static void getRestaurantLocations(Context cxt, double lat, double longi) throws IOException {
+        ArrayList<String> restaurantNames = new ArrayList<>();
+        restaurantNames.add("McDonald's");
+        restaurantNames.add("Chipotle");
+        restaurantNames.add("Noodles and Company");
+        restaurantNames.add("Starbucks");
+        restaurantNames.add("McAlister's");
+        restaurantNames.add("Five Guys");
+        restaurantNames.add("Panda Express");
+        restaurantNames.add("Domino's");
+
+        locationsThread = new Thread(() ->{
+            ArrayList<String> threadAddresses = new ArrayList<>();
+            //make google places api call for every restaurant to get its location.
+            //Google places api takes into account the user's location and searches
+            //for the restaurant in a 10 mile radius of user
+            for(int i = 0; i < restaurantNames.size(); i++){
+                String jsonData = downloadFromURl(
+                        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
+                                lat + "," + longi +
+                                "&radius=17000&type=restaurant&keyword=" + restaurantNames.get(i) +
+                                "&key=AIzaSyBFbY3d58_ZFRFSyaEd259xevJ3cSmhIdw");
+                try {
+                    threadAddresses.add(parseJsonData(cxt, jsonData));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            restaurantLocations = threadAddresses;
+        });
+
+    }
+    //makes api call, getting the json string
+    public static String downloadFromURl(String url){
+        InputStream is;
+        StringBuffer result = new StringBuffer();
+        URL myUrl = null;
+        try{
+            myUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) myUrl.openConnection();
+            connection.setReadTimeout(3000);
+            connection.setConnectTimeout(3000);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+
+            int response = connection.getResponseCode();
+            if(response != HttpURLConnection.HTTP_OK){
+                throw new IOException("Connection failed");
+            }
+
+            is = connection.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            String line = "";
+
+            while((line = br.readLine()) != null){
+                result.append(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
+    //parses JSON data from API call
+    private static String parseJsonData(Context cxt, String data) throws JSONException, IOException{
+        JSONObject rootObject = new JSONObject(data);
+        //get results JSONArray
+        JSONArray resultsArray = rootObject.optJSONArray("results");
+        //get formatted address out of array
+        JSONObject secondaryObject = resultsArray.getJSONObject(0);
+        //get geometry object out of secondary
+        JSONObject geometry = secondaryObject.optJSONObject("geometry");
+        //get location object out of geometry
+        JSONObject locationObject = geometry.optJSONObject("location");
+        //get lat and long out of location
+        double restaurantLat = locationObject.optDouble("lat");
+        double restaurantLng = locationObject.optDouble("lng");
+        //use geocoder to get an address from the coords
+        Geocoder geocoder = new Geocoder(cxt);
+        List<Address> geoAddress = geocoder.getFromLocation(restaurantLat, restaurantLng, 1);
+        return geoAddress.get(0).toString();
+
     }
 
 }
