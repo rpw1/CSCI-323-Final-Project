@@ -55,7 +55,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
-//            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
+            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
             imageStrings = new ArrayList<>();
             compressImages(context);
             restaurantLocations = new ArrayList<>();
@@ -320,7 +320,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
                         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
                                 lat + "," + longi +
                                 "&radius=17000&type=restaurant&keyword=" + restaurantNames.get(i) +
-                                "&key=AIzaSyBFbY3d58_ZFRFSyaEd259xevJ3cSmhIdw");
+                                "&key=AIzaSyD-Qc1-th6MZ2BcSYexbyzjxcFou-ga9WU");
                 try {
                     threadAddresses.add(parseJsonData(cxt, jsonData));
                 } catch (Exception e) {
@@ -365,6 +365,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
     //parses JSON data from API call
     private static String parseJsonData(Context cxt, String data) throws JSONException, IOException{
+        Log.v("THREAD_INFO", "HERE");
         JSONObject rootObject = new JSONObject(data);
         //get results JSONArray
         JSONArray resultsArray = rootObject.optJSONArray("results");

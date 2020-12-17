@@ -52,6 +52,7 @@ public class SignInActivity extends AppCompatActivity {
     LocationListener locationListener;
     double longitude;
     double latitude;
+    Context context = this;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -65,16 +66,11 @@ public class SignInActivity extends AppCompatActivity {
 
         createNotificationChannel();
         getUserLocation();
-        try {
-            RestaurantDatabase database = RestaurantDatabase.createAppDatabase(this, latitude, longitude);
-        } catch (IOException e) {
-            Log.v("stuff", "Something went wrong while creating db, potentially with calling the apis in getRestaurantLocations");
-        }
 
         this.intent = new Intent(this, HomeActivity.class);
         HashMap<String, String> loginInfo = (HashMap<String, String>) sharedPreferences.getAll();
         this.editor = this.sharedPreferences.edit();
-//        this.sharedPreferences.edit().clear().commit();
+        this.sharedPreferences.edit().clear().commit();
         if (loginInfo.containsKey("name") && loginInfo.containsKey("email")) {
             startActivity(this.intent);
         }
@@ -226,6 +222,11 @@ public class SignInActivity extends AppCompatActivity {
             public void onLocationChanged(@NonNull Location location) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                try {
+                    RestaurantDatabase.createAppDatabase(context, latitude, longitude);
+                } catch (IOException e) {
+                    Log.v("stuff", "Something went wrong while creating db, potentially with calling the apis in getRestaurantLocations");
+                }
             }
         };
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
