@@ -53,7 +53,7 @@ public class SignInActivity extends AppCompatActivity {
         this.intent = new Intent(this, HomeActivity.class);
         HashMap<String, String> loginInfo = (HashMap<String, String>) sharedPreferences.getAll();
         this.editor = this.sharedPreferences.edit();
-        this.sharedPreferences.edit().clear().commit();
+//        this.sharedPreferences.edit().clear().commit();
         if (loginInfo.containsKey("name") && loginInfo.containsKey("email")) {
             startActivity(this.intent);
         }

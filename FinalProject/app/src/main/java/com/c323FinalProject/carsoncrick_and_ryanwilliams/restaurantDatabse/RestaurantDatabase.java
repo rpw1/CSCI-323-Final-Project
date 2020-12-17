@@ -41,7 +41,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
-            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
+//            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
             imageStrings = new ArrayList<>();
             compressImages(context);
             setUpDatabase(imageStrings);
