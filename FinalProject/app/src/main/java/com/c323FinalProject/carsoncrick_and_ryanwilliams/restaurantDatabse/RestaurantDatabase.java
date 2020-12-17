@@ -17,6 +17,7 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,8 @@ public abstract class RestaurantDatabase extends RoomDatabase {
     private static ArrayList<String> imageStrings;
     public abstract RestaurantItemDao getRestaurantItemDao();
     private static RestaurantDatabase INSTANCE;
+    private static Thread databaseThread;
+    private static Thread imageThread;
 
     /**
      * This function grabs the database instance and creates one if INSTANCE is null
@@ -38,10 +41,26 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
-//            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
+            new Thread(() -> context.deleteDatabase("restaurantDb")).start();
             imageStrings = new ArrayList<>();
             compressImages(context);
             setUpDatabase(imageStrings);
+            int NUM_CORES = Runtime.getRuntime().availableProcessors();
+            ThreadPoolExecutor executor = new ThreadPoolExecutor(NUM_CORES * 2,
+                    NUM_CORES * 2,
+                    60L,
+                    TimeUnit.SECONDS,
+                    new LinkedBlockingDeque<>());
+            executor.execute(new Thread(() -> {
+                imageThread.start();
+                try {
+                    imageThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                databaseThread.start();
+            }));
+
         }
         return INSTANCE;
 
@@ -56,7 +75,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * I got this here https://stackoverflow.com/questions/53459317/saving-multiple-arraylist-in-room-database-best-way-of-doing-it
      */
     private static void setUpDatabase(ArrayList<String> imageStrings) {
-        new Thread(() -> {
+        databaseThread = new Thread(() -> {
             RestaurantItemDao restaurantItemDao = INSTANCE.getRestaurantItemDao();
             List<Restaurant> restaurantItems = restaurantItemDao.getAllRestaurants();
 
@@ -164,7 +183,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
                 restaurantItemDao.addRestaurantOrderItemsMap(restaurantMaps);
             }
-        }).start();
+        });
     }
 
     /**
@@ -186,7 +205,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * @return
      */
     public static void compressImages(Context context){
-      new Thread(() -> {
+      imageThread = new Thread(() -> {
 
             ArrayList<Bitmap> bitmaps = new ArrayList<>();
 
@@ -197,9 +216,9 @@ public abstract class RestaurantDatabase extends RoomDatabase {
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.mcdonalds3));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.chipotle1));
+                    R.drawable.chipolte1));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.chipotle2));
+                    R.drawable.chipolte2));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.chipotle3));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
@@ -209,11 +228,11 @@ public abstract class RestaurantDatabase extends RoomDatabase {
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.noodles3));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.starbucks1));
+                    R.drawable.starbuck1));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.starbucks2));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.starbucks3));
+                    R.drawable.starbuck3));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.mcalisters1));
             bitmaps.add(BitmapFactory.decodeResource(context.getResources(),
@@ -244,13 +263,13 @@ public abstract class RestaurantDatabase extends RoomDatabase {
                 Log.v("stuff", i+"");
                 Bitmap bitmap = bitmaps.get(i);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 imageStrings.add(Base64.encodeToString(byteArray, Base64.DEFAULT));
             }
 
 
-        }).start();
+        });
     }
 
 }
