@@ -51,7 +51,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * @param context
      * @return
      */
-    public static RestaurantDatabase getAppDatabase(Context context, double latitude, double longitude) throws IOException {
+    public static RestaurantDatabase createAppDatabase(Context context, double latitude, double longitude) throws IOException {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
@@ -82,6 +82,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
     }
 
+<<<<<<< HEAD
     /**
      * This is to get an instance when you know you have already created the instance.
      * @return RestaurantDatabase Instance
@@ -90,6 +91,15 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+=======
+    //gets reference of previously created database
+    public static RestaurantDatabase getAppDatabase(Context cxt){
+        return INSTANCE;
+    }
+
+
+
+>>>>>>> e5d11ca8ee82df8a28794323730ae65461913774
     public static void destroyInstance() {
         INSTANCE = null;
     }

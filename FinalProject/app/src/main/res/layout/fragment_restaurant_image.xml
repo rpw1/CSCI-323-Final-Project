@@ -7,8 +7,14 @@
     tools:context=".RestaurantImage.RestaurantImageFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+<<<<<<< HEAD
         android:id="@+id/recyclerViewRestaurantImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="horizontal" />
+=======
+        android:id="@+id/restaurantImageRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+>>>>>>> e5d11ca8ee82df8a28794323730ae65461913774
 </FrameLayout>
