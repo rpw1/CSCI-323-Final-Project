@@ -69,8 +69,10 @@ public abstract class RestaurantDatabase extends RoomDatabase {
                     new LinkedBlockingDeque<>());
             executor.execute(new Thread(() -> {
                 imageThread.start();
+                locationsThread.start();
                 try {
                     imageThread.join();
+                    locationsThread.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -312,6 +314,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
             //make google places api call for every restaurant to get its location.
             //Google places api takes into account the user's location and searches
             //for the restaurant in a 10 mile radius of user
+            Log.v("API_INFO", "Lat: " + lat + " Lang: " + longi);
             for(int i = 0; i < restaurantNames.size(); i++){
                 String jsonData = downloadFromURl(
                         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
