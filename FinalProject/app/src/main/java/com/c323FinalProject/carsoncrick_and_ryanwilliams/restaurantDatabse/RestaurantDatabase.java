@@ -51,7 +51,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
      * @param context
      * @return
      */
-    public static RestaurantDatabase createAppDatabase(Context context, double latitude, double longitude) throws IOException {
+    public static RestaurantDatabase getAppDatabase(Context context, double latitude, double longitude) throws IOException {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
@@ -83,6 +83,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * This is to get an instance when you know you have already created the instance.
      * @return RestaurantDatabase Instance
@@ -100,6 +101,8 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
 
 >>>>>>> e5d11ca8ee82df8a28794323730ae65461913774
+=======
+>>>>>>> parent of e5d11ca... created createRestaurantDatabase method (was  getRestaurantDatabase previously) and now getRestaurantDatabase just returns the instance. Set up RestaurantImageFragment to actually display the restaurant images. Other than that, the restaurant getLocation thread still needs to be implemented so we can see if restaurants are created correctly and everything works right.
     public static void destroyInstance() {
         INSTANCE = null;
     }

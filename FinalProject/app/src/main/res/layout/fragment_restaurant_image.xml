@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RestaurantImage.RestaurantImageFragment">
 
+<<<<<<< HEAD
     <androidx.recyclerview.widget.RecyclerView
 <<<<<<< HEAD
         android:id="@+id/recyclerViewRestaurantImage"
@@ -17,4 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="250dp" />
 >>>>>>> e5d11ca8ee82df8a28794323730ae65461913774
+=======
+    <ImageView
+        android:id="@+id/restaurantImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        tools:src="@tools:sample/avatars" />
+>>>>>>> parent of e5d11ca... created createRestaurantDatabase method (was  getRestaurantDatabase previously) and now getRestaurantDatabase just returns the instance. Set up RestaurantImageFragment to actually display the restaurant images. Other than that, the restaurant getLocation thread still needs to be implemented so we can see if restaurants are created correctly and everything works right.
 </FrameLayout>
