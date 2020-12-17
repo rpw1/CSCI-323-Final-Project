@@ -46,7 +46,6 @@ public class RestaurantFoodItemsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.itemsInterface = (RestaurantFoodItemsInterface) getActivity();
-
     }
 
     @Override
@@ -59,7 +58,7 @@ public class RestaurantFoodItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_restaurant_food_items, container, false);
         this.recyclerView = view.findViewById(R.id.restaurantFoodItemRecycler);
-        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
+        this.restaurantDatabase = RestaurantDatabase.getExistingDatabaseInstance();
         this.button = view.findViewById(R.id.btnCheckOut);
         this.button.setOnClickListener(btnView -> {
             for (int i = 0; i < this.itemsAdapter.getItemCount(); i++) {

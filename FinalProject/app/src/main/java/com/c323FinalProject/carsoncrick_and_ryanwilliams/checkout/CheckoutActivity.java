@@ -66,7 +66,7 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this);
+        this.restaurantDatabase = RestaurantDatabase.getExistingDatabaseInstance();
         Intent intent = getIntent();
         this.restaurantId = intent.getIntExtra("id", -1);
         this.restaurantName = intent.getStringExtra("name");

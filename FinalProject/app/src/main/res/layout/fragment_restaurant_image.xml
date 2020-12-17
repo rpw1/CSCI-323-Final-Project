@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RestaurantImageFragment">
+    tools:context=".RestaurantImage.RestaurantImageFragment">
 
-    <ImageView
-        android:id="@+id/restaurantImageView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRestaurantImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        tools:src="@tools:sample/avatars" />
+        android:scrollbars="horizontal" />
 </FrameLayout>

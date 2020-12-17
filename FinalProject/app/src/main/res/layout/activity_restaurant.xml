@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragRestaurantImage"
-        android:name="com.c323FinalProject.carsoncrick_and_ryanwilliams.RestaurantImageFragment"
+        android:name="com.c323FinalProject.carsoncrick_and_ryanwilliams.RestaurantImage.RestaurantImageFragment"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         tools:layout_editor_absoluteX="200dp"

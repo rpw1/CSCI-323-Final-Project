@@ -82,6 +82,14 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
     }
 
+    /**
+     * This is to get an instance when you know you have already created the instance.
+     * @return RestaurantDatabase Instance
+     */
+    public static RestaurantDatabase getExistingDatabaseInstance() {
+        return INSTANCE;
+    }
+
     public static void destroyInstance() {
         INSTANCE = null;
     }

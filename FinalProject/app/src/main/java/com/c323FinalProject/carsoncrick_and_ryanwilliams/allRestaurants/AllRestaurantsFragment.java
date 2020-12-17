@@ -33,7 +33,7 @@ public class AllRestaurantsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getContext();
-        this.restaurantDatabase = RestaurantDatabase.getAppDatabase(this.context);
+        this.restaurantDatabase = RestaurantDatabase.getExistingDatabaseInstance();
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
         this.restaurants = this.restaurantItemDao.getAllRestaurants();
     }
