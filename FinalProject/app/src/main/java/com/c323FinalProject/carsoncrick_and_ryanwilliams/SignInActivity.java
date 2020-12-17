@@ -1,20 +1,31 @@
 package com.c323FinalProject.carsoncrick_and_ryanwilliams;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +48,12 @@ public class SignInActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     ImageView userImageView;
     AlertDialog alertDialog;
+    LocationManager lm;
+    LocationListener locationListener;
+    double longitude;
+    double latitude;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +64,12 @@ public class SignInActivity extends AppCompatActivity {
         this.userImageView = findViewById(R.id.userImageButton);
 
         createNotificationChannel();
-        RestaurantDatabase database = RestaurantDatabase.getAppDatabase(this);
+        getUserLocation();
+        try {
+            RestaurantDatabase database = RestaurantDatabase.getAppDatabase(this, latitude, longitude);
+        } catch (IOException e) {
+            Log.v("stuff", "Something went wrong while creating db, potentially with calling the apis in getRestaurantLocations");
+        }
 
         this.intent = new Intent(this, HomeActivity.class);
         HashMap<String, String> loginInfo = (HashMap<String, String>) sharedPreferences.getAll();
@@ -102,7 +123,7 @@ public class SignInActivity extends AppCompatActivity {
 
         buttonGallery.setOnClickListener(viewGallery -> {
             // I found this here https://stackoverflow.com/questions/16928727/open-gallery-app-from-android-intent?noredirect=1&lq=1
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(galleryIntent, 18);
         });
 
@@ -182,7 +203,7 @@ public class SignInActivity extends AppCompatActivity {
     /**
      * Creates notification channel so our program is able to send out notifications
      */
-    public void createNotificationChannel(){
+    public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("serviceNotification", "program channel", importance);
@@ -191,4 +212,42 @@ public class SignInActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void getUserLocation() {
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+                startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
+            }
+
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+        };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 1);
+            return;
+        } else {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000000, 0, locationListener);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000000, 0, locationListener);
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
 }
