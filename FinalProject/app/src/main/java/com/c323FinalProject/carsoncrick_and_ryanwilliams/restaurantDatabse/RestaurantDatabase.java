@@ -107,7 +107,6 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         databaseThread = new Thread(() -> {
             RestaurantItemDao restaurantItemDao = INSTANCE.getRestaurantItemDao();
             List<Restaurant> restaurantItems = restaurantItemDao.getAllRestaurants();
-
             if (restaurantItems.size() == 0) {
                 Restaurant[] restaurantsList = new Restaurant[]{
                         new Restaurant("McDonalds", restaurantLocations.get(0), imageStrings.get(0), imageStrings.get(1), imageStrings.get(2)),
@@ -296,8 +295,6 @@ public abstract class RestaurantDatabase extends RoomDatabase {
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 imageStrings.add(Base64.encodeToString(byteArray, Base64.DEFAULT));
             }
-
-
         });
     }
 
@@ -375,17 +372,10 @@ public abstract class RestaurantDatabase extends RoomDatabase {
         JSONArray resultsArray = rootObject.optJSONArray("results");
         //get formatted address out of array
         JSONObject secondaryObject = resultsArray.getJSONObject(0);
-        //get geometry object out of secondary
-        JSONObject geometry = secondaryObject.optJSONObject("geometry");
-        //get location object out of geometry
-        JSONObject locationObject = geometry.optJSONObject("location");
-        //get lat and long out of location
-        double restaurantLat = locationObject.optDouble("lat");
-        double restaurantLng = locationObject.optDouble("lng");
-        //use geocoder to get an address from the coords
-        Geocoder geocoder = new Geocoder(cxt);
-        List<Address> geoAddress = geocoder.getFromLocation(restaurantLat, restaurantLng, 1);
-        return geoAddress.get(0).toString();
+        //get address out of secondary
+        String address = secondaryObject.optString("vicinity");
+        Log.v("stuff", "Restaurant's address: " + address);
+        return address;
 
     }
 

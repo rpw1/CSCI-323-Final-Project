@@ -12,6 +12,11 @@ import androidx.room.FtsOptions;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,10 +29,12 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.DeliveryTimeService;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.OrdersActivity;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantOrderItemMap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -84,14 +91,14 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     //place order button handler
-    public void placeOrder(View view) {
+    public void placeOrder(View view) throws IOException {
         String addressString = this.textViewAddress.getText().toString();
         if (!addressString.equals("Delivery Address: ")) {
             Intent intent = new Intent(this, OrdersActivity.class);
             intent.putExtra("id", restaurantId);
             intent.putExtra("name", this.restaurantName);
             intent.putExtra("address", addressString);
-            beginService();
+            beginService(addressString);
             startActivity(intent);
         } else {
             Toast.makeText(this, "Error: Please enter a delivery address", Toast.LENGTH_SHORT).show();
@@ -115,16 +122,32 @@ public class CheckoutActivity extends AppCompatActivity {
     };
 
     //starts the Intent Service and passes it the delivery time to keep track of it
-    public void beginService(){
-        /** GET DISTANCE BETWEEN RESTAURANT AND DELIVERY ADDRESS
-         * int distanceBetween =
-         */
+    public void beginService(String deliveryAddress) throws IOException {
+        Geocoder geocoder = new Geocoder(this);
+        //get the specific restaurant object
+        Restaurant restaurant = restaurantItemDao.getRestaurantById(restaurantId);
+        //get address object from delivery address
+        List<Address> listAddress1 = geocoder.getFromLocationName(deliveryAddress, 1);
+        //get address object from restaurant address
+        List<Address> listAddress2 = geocoder.getFromLocationName(restaurant.getRestaurantLocation(), 1);
+        Address userAddress = listAddress1.get(0);
+        Address restaurantAddress = listAddress2.get(0);
+
+        Location userLocation = new Location(LocationManager.GPS_PROVIDER);
+        userLocation.setLatitude(userAddress.getLatitude());
+        userLocation.setLongitude(userAddress.getLongitude());
+
+        Location restaurantLocation = new Location(LocationManager.GPS_PROVIDER);
+        restaurantLocation.setLatitude(restaurantAddress.getLatitude());
+        restaurantLocation.setLongitude(restaurantAddress.getLongitude());
+
+        //find the distance between the two locations and convert it to kilometers
+        int distanceBetween = (int) userLocation.distanceTo(restaurantLocation);
+        Log.v("stuff", "Distance between the two areas "+distanceBetween);
         int random = (int) (Math.random() * ((100-5)+1))+5;
         Log.v("stuff", "random num is " + random);
-        /**
-         * PLACE HOLDER DISTANCE BETWEEN RESTAURANT AND ADDRESS NUMBER, REPLACE THE 50
-         */
-        double delivery_time = (50.0/100.0)* random;
+        int delivery_time = (distanceBetween/100)* random;
+        Log.v("stuff", "Delivery Time: " + delivery_time);
 
         //pass this value to the intent service
         Intent toService = new Intent(this, DeliveryTimeService.class);

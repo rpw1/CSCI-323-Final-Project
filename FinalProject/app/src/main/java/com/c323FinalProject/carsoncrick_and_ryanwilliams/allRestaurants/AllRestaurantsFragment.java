@@ -52,4 +52,5 @@ public class AllRestaurantsFragment extends Fragment {
         this.recyclerView.setAdapter(this.allRestaurantsAdapter);
         return view;
     }
+
 }

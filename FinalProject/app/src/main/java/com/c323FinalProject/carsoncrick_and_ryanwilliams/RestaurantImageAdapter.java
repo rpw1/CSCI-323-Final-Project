@@ -18,6 +18,7 @@ public class RestaurantImageAdapter extends RecyclerView.Adapter<RestaurantImage
 
     private List<Bitmap> restaurantImageBitmaps;
 
+
     public RestaurantImageAdapter(List<Bitmap> bitmaps){
         this.restaurantImageBitmaps = bitmaps;
     }
