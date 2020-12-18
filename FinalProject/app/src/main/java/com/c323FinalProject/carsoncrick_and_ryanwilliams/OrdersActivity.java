@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class OrdersActivity extends AppCompatActivity {
     RestaurantDatabase restaurantDatabase;
     RestaurantItemDao restaurantItemDao;
     String addressString;
+    String restaurantAddress;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -91,6 +93,7 @@ public class OrdersActivity extends AppCompatActivity {
         this.restaurantId = intent.getIntExtra("id", -1);
         this.restaurantName = intent.getStringExtra("name");
         this.addressString = intent.getStringExtra("address");
+        this.restaurantAddress = intent.getStringExtra("restaurant address");
         this.textViewFoodItem = findViewById(R.id.tvOrderActAllFoodItems);
         this.textViewOrderedFrom = findViewById(R.id.tvOrderActOrderedFrom);
         this.textViewPrice = findViewById(R.id.tvOrderActPrice);
@@ -98,5 +101,13 @@ public class OrdersActivity extends AppCompatActivity {
         this.textViewTime = findViewById(R.id.tvOrderActTime);
         this.textViewAddress = findViewById(R.id.tvOrderActAddress);
         this.restaurantItemDao = this.restaurantDatabase.getRestaurantItemDao();
+    }
+
+    //track order button handler
+    public void toMaps(View view) {
+        Intent toMaps = new Intent(this, MapsActivity.class);
+        toMaps.putExtra("delivery address", addressString);
+        toMaps.putExtra("restaurant address", restaurantAddress);
+        startActivity(toMaps);
     }
 }

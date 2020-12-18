@@ -2,18 +2,32 @@ package com.c323FinalProject.carsoncrick_and_ryanwilliams;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.io.IOException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    LatLng deliveryCoords;
+    LatLng restaurantCoords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +37,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //get data from intent passed from recent orders activity
+        Intent i = getIntent();
+        String deliveryAddress = i.getStringExtra("delivery address");
+        String restaurantAddress = i.getStringExtra("restaurant address");
+        //get lat and long from addresses
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            Address addressDelivery = geocoder.getFromLocationName(deliveryAddress, 1).get(0);
+            Address addressRestaurant = geocoder.getFromLocationName(restaurantAddress, 1).get(0);
+            this.deliveryCoords = new LatLng(addressDelivery.getLatitude(), addressDelivery.getLongitude());
+            this.restaurantCoords = new LatLng(addressRestaurant.getLatitude(), addressRestaurant.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -37,10 +66,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        UiSettings settings = mMap.getUiSettings();
+        settings.setZoomControlsEnabled(true);
+        settings.setAllGesturesEnabled(true);
+        settings.setCompassEnabled(true);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(deliveryCoords, 0);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //get distance between both points
+        Location deliveryLocation = new Location(LocationManager.GPS_PROVIDER);
+        deliveryLocation.setLatitude(deliveryCoords.latitude);
+        deliveryLocation.setLongitude(deliveryCoords.longitude);
+
+        Location restaurantLocation = new Location(LocationManager.GPS_PROVIDER);
+        restaurantLocation.setLatitude(restaurantCoords.latitude);
+        restaurantLocation.setLongitude(restaurantCoords.longitude);
+
+        float distBetween = deliveryLocation.distanceTo(restaurantLocation) / 1000;
+
+        //make markers for both addresses
+        //include distance between with delivery marker title
+        MarkerOptions deliveryMarker = new MarkerOptions().position(deliveryCoords)
+                .title("Your Delivery Destination, Distance In KM: " + (int) distBetween).visible(true);
+        mMap.addMarker(deliveryMarker);
+        CircleOptions circleOptions = new CircleOptions().center(deliveryCoords).radius(200).fillColor(0x2500ff00).strokeColor(Color.BLUE).strokeWidth(3);
+        mMap.addCircle(circleOptions);
+
+        MarkerOptions restaurantMarker = new MarkerOptions().position(restaurantCoords)
+                .title("Your Chosen Restaurant").visible(true);
+        mMap.addMarker(restaurantMarker);
+        CircleOptions circleOptionsActivity = new CircleOptions().center(restaurantCoords).radius(200).fillColor(0x2500ff00).strokeColor(Color.BLUE).strokeWidth(3);
+        mMap.addCircle(circleOptionsActivity);
+
+        //create line between the two
+        mMap.addPolyline(new PolylineOptions().add(deliveryCoords, restaurantCoords));
+        //move camera to delivery address
+        mMap.animateCamera(update);
     }
 }
