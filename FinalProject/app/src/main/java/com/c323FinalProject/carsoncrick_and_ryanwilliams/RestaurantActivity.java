@@ -20,7 +20,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantF
         setContentView(R.layout.activity_restaurant);
         Intent intent = getIntent();
         this.restaurantId = intent.getIntExtra("Restaurant Id", -1);
-        Log.v("HELP_ME", this.restaurantId + "");
         this.restaurantName = intent.getStringExtra("Restaurant Name");
     }
 

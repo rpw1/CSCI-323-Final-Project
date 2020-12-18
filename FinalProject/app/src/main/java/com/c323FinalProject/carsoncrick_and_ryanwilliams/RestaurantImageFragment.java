@@ -65,7 +65,6 @@ public class RestaurantImageFragment extends Fragment {
         RestaurantItemDao restaurantItemDao = restaurantDatabase.getRestaurantItemDao();
         //get restaurant's id reference from restaurant activity's interface and use dao to get specific restaurant object
         int position = restaurantImageInterface.getRestaurantIdImage();
-        Log.v("HELP ME", position + "");
         restaurant = restaurantItemDao.getRestaurantById(position);
         List<Restaurant> restaurants = restaurantItemDao.getAllRestaurants();
         //get the 3 base 64 image strings out of the restaurant object

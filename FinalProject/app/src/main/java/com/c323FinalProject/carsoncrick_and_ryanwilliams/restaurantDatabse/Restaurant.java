@@ -14,7 +14,6 @@ public class Restaurant {
     private String restaurantImageOne;
     private String restaurantImageTwo;
     private String restaurantImageThree;
-    private boolean isFavorite;
 
     public Restaurant(String restaurantName, String restaurantLocation, String restaurantImageOne, String restaurantImageTwo, String restaurantImageThree) {
         this.restaurantName = restaurantName;
@@ -22,7 +21,6 @@ public class Restaurant {
         this.restaurantImageOne = restaurantImageOne;
         this.restaurantImageTwo = restaurantImageTwo;
         this.restaurantImageThree = restaurantImageThree;
-        this.isFavorite = false;
     }
 
     public int getRestaurantId() {
@@ -72,13 +70,4 @@ public class Restaurant {
     public void setRestaurantImageThree(String restaurantImageThree) {
         this.restaurantImageThree = restaurantImageThree;
     }
-
-    public boolean getIsFavorite() {
-        return this.isFavorite;
-    }
-
-    public void setFavorite(boolean isFavorite) {
-        this.isFavorite = isFavorite;
-    }
-
 }

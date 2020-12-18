@@ -36,6 +36,19 @@ public class PlacedOrder {
     @ColumnInfo(name = "address")
     String address;
 
+    @ColumnInfo(name = "restaurant_id")
+    int restaurant_id;
+
+    public PlacedOrder(int total_price, int total_quantity, String date, String time, String restaurant_name, String address, int restaurant_id) {
+        this.total_price = total_price;
+        this.total_quantity = total_quantity;
+        this.date = date;
+        this.time = time;
+        this.restaurant_name = restaurant_name;
+        this.address = address;
+        this.restaurant_id = restaurant_id;
+    }
+
     public int getPlaced_order_id() {
         return placed_order_id;
     }
@@ -98,5 +111,13 @@ public class PlacedOrder {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getRestaurantId() {
+        return restaurant_id;
+    }
+
+    public void setRestaurantId(int restaurantId) {
+        this.restaurant_id = restaurantId;
     }
 }

@@ -25,6 +25,7 @@
             android:id="@+id/recentOrdersRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#cccccc"/>
+            android:background="#cccccc"
+            android:scrollbars="horizontal" />
     </LinearLayout>
 </FrameLayout>

@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.util.Base64;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 
@@ -63,6 +64,7 @@ public class SignInActivity extends AppCompatActivity {
         this.editTextName = findViewById(R.id.editTextUsername);
         this.editTextEmail = findViewById(R.id.editTextUserEmail);
         this.userImageView = findViewById(R.id.userImageButton);
+        PlacedOrderDatabase.getPlacedOrderDatabase(this);
 
         createNotificationChannel();
         getUserLocation();
