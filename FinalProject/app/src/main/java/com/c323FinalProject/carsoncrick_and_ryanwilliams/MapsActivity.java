@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         settings.setZoomControlsEnabled(true);
         settings.setAllGesturesEnabled(true);
         settings.setCompassEnabled(true);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(deliveryCoords, 0);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(deliveryCoords, 50);
 
         //get distance between both points
         Location deliveryLocation = new Location(LocationManager.GPS_PROVIDER);
