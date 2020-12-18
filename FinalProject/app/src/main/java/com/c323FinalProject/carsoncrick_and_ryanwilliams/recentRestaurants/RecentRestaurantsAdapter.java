@@ -1,4 +1,4 @@
-package com.c323FinalProject.carsoncrick_and_ryanwilliams;
+package com.c323FinalProject.carsoncrick_and_ryanwilliams.recentRestaurants;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.RestaurantActivity;
 
 import java.util.List;
 

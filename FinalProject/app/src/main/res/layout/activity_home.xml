@@ -27,7 +27,7 @@
 
             <fragment
                 android:id="@+id/fragFavRestaurants"
-                android:name="com.c323FinalProject.carsoncrick_and_ryanwilliams.RecentRestaurantsFragment"
+                android:name="com.c323FinalProject.carsoncrick_and_ryanwilliams.recentRestaurants.RecentRestaurantsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="0dp"/>

@@ -25,7 +25,7 @@ public abstract class PlacedOrderDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     PlacedOrderDatabase.class, "placedOrderDb").allowMainThreadQueries().build();
-            new Thread(() -> context.deleteDatabase("placedOrderDb")).start();
+//            new Thread(() -> context.deleteDatabase("placedOrderDb")).start();
             setUpOrderDatabase();
         }
         return INSTANCE;

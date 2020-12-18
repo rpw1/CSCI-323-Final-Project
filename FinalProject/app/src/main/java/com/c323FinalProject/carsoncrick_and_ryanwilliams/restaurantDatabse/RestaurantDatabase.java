@@ -288,7 +288,6 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
             //compress to byte arrays then to base 64
             for(int i = 0; i < bitmaps.size(); i++){
-                Log.v("stuff", i+"");
                 Bitmap bitmap = bitmaps.get(i);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
@@ -366,7 +365,6 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
     //parses JSON data from API call
     private static String parseJsonData(Context cxt, String data) throws JSONException, IOException{
-        Log.v("THREAD_INFO", "HERE");
         JSONObject rootObject = new JSONObject(data);
         //get results JSONArray
         JSONArray resultsArray = rootObject.optJSONArray("results");

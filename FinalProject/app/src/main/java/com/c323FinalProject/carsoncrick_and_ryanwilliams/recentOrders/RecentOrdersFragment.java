@@ -1,4 +1,4 @@
-package com.c323FinalProject.carsoncrick_and_ryanwilliams;
+package com.c323FinalProject.carsoncrick_and_ryanwilliams.recentOrders;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDao;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDatabase;
 

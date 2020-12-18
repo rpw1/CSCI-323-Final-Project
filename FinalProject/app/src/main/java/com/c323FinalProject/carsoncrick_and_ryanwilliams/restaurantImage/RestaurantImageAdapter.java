@@ -1,4 +1,4 @@
-package com.c323FinalProject.carsoncrick_and_ryanwilliams;
+package com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantImage;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantFoodItems.RestaurantFoodItemsAdapter;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 
 import java.util.List;
 

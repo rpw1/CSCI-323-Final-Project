@@ -1,4 +1,4 @@
-package com.c323FinalProject.carsoncrick_and_ryanwilliams;
+package com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantImage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,15 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.Restaurant;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
-import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantFoodItems.RestaurantFoodItemsFragment;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantImage.RestaurantImageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
