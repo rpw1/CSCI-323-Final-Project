@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrder;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDao;
@@ -56,7 +57,7 @@ public class CalendarFragment extends Fragment {
         this.calendarView = view.findViewById(R.id.calendarView);
         this.textViewSpent = view.findViewById(R.id.textViewCalendarCost);
         this.calendarView.setOnDayClickListener(eventDay -> {
-            List<Calendar> calendars = new ArrayList<>();
+            ArrayList<Calendar> calendars = new ArrayList<>();
             calendars.add(eventDay.getCalendar());
             calendarView.setHighlightedDays(calendars);
             Date date = eventDay.getCalendar().getTime();

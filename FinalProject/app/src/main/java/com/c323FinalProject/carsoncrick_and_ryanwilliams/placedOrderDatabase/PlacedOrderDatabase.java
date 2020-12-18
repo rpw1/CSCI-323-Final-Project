@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
 
+import java.util.List;
+
 @Database(entities = {PlacedOrder.class} , version = 1)
 public abstract class PlacedOrderDatabase extends RoomDatabase {
 
@@ -25,8 +27,12 @@ public abstract class PlacedOrderDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     PlacedOrderDatabase.class, "placedOrderDb").allowMainThreadQueries().build();
+            PlacedOrderDao placedOrderDao = INSTANCE.getPlacedOrderItemDao();
+            List<PlacedOrder> placedOrders = placedOrderDao.getAllPlacedOrders();
 //            new Thread(() -> context.deleteDatabase("placedOrderDb")).start();
-            setUpOrderDatabase();
+            if (placedOrders.size() == 0) {
+                setUpOrderDatabase();
+            }
         }
         return INSTANCE;
     }
