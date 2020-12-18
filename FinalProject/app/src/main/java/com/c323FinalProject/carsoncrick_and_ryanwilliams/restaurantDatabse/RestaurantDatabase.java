@@ -86,6 +86,10 @@ public abstract class RestaurantDatabase extends RoomDatabase {
 
     //gets reference of previously created database
     public static RestaurantDatabase getAppDatabase(Context cxt){
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(cxt.getApplicationContext(),
+                    RestaurantDatabase.class, "restaurantDb").allowMainThreadQueries().build();
+        }
         return INSTANCE;
     }
 
