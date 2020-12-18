@@ -16,6 +16,7 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.Pla
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDao;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDatabase;
 
+import java.util.Collections;
 import java.util.List;
 
 public class RecentOrdersFragment extends Fragment {
@@ -31,6 +32,7 @@ public class RecentOrdersFragment extends Fragment {
         PlacedOrderDatabase placedOrderDatabase = PlacedOrderDatabase.getPlacedOrderDatabase(context);
         PlacedOrderDao placedOrderDao = placedOrderDatabase.getPlacedOrderItemDao();
         this.placedOrders = placedOrderDao.getAllPlacedOrders();
+        Collections.reverse(this.placedOrders);
     }
 
     @Override

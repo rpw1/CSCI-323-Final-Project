@@ -6,13 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.R;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrder;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDao;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class RecentOrdersAdapter extends RecyclerView.Adapter<RecentOrdersAdapter.RecentOrdersViewHolder> {
@@ -67,7 +73,20 @@ public class RecentOrdersAdapter extends RecyclerView.Adapter<RecentOrdersAdapte
 
         @Override
         public void onClick(View view) {
-
+            PlacedOrderDatabase placedOrderDatabase = PlacedOrderDatabase.getPlacedOrderDatabase(context);
+            PlacedOrderDao placedOrderDao = placedOrderDatabase.getPlacedOrderItemDao();
+            PlacedOrder placedOrder = placedOrders.get(getAdapterPosition());
+            Calendar calendar = Calendar.getInstance();
+            Date date = calendar.getTime();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String dateString = simpleDateFormat.format(date);
+            SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat("hh:mm a");
+            String timeString = simpleDateFormatTime.format(date);
+            PlacedOrder newPlacedOrder = new PlacedOrder(placedOrder.getTotal_price(), placedOrder.getTotal_quantity(),
+                    dateString, timeString, placedOrder.getRestaurant_name(), placedOrder.getAddress(),
+                    placedOrder.getRestaurantId(), placedOrder.getOrdered_food_items());
+            placedOrderDao.insertPlacedOrder(newPlacedOrder);
+            Toast.makeText(context, "Order number " + placedOrder.getPlaced_order_id() + " was successfully reordered", Toast.LENGTH_SHORT).show();
         }
     }
 }

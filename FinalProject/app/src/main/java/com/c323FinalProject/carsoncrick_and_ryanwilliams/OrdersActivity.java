@@ -72,7 +72,7 @@ public class OrdersActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         String dateString = simpleDateFormat.format(date);
         this.textViewDate.setText("Date: " + dateString);
-        SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat("HH:mm a");
+        SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat("hh:mm a");
         String timeString = simpleDateFormatTime.format(date);
         this.textViewTime.setText("Time: " + timeString);
         this.textViewAddress.setText(this.addressString);

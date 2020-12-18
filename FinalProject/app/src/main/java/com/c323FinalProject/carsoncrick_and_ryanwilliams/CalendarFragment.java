@@ -1,64 +1,104 @@
 package com.c323FinalProject.carsoncrick_and_ryanwilliams;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CalendarFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrder;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDao;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDatabase;
+import com.google.android.material.datepicker.MaterialCalendar;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+
 public class CalendarFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CalendarFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CalendarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CalendarFragment newInstance(String param1, String param2) {
-        CalendarFragment fragment = new CalendarFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    com.applandeo.materialcalendarview.CalendarView calendarView;
+    Context context;
+    ArrayList<String> dates;
+    ArrayList<Integer> prices;
+    TextView textViewSpent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        this.context = getContext();
+        PlacedOrderDatabase placedOrderDatabase = PlacedOrderDatabase.getPlacedOrderDatabase(this.context);
+        PlacedOrderDao placedOrderDao = placedOrderDatabase.getPlacedOrderItemDao();
+        List<PlacedOrder> placedOrders = placedOrderDao.getAllPlacedOrders();
+        this.dates = new ArrayList<>();
+        this.prices = new ArrayList<>();
+        for (PlacedOrder po : placedOrders) {
+            this.dates.add(po.getDate());
+            this.prices.add(po.getTotal_price());
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        this.calendarView = view.findViewById(R.id.calendarView);
+        this.textViewSpent = view.findViewById(R.id.textViewCalendarCost);
+        this.calendarView.setOnDayClickListener(eventDay -> {
+            List<Calendar> calendars = new ArrayList<>();
+            calendars.add(eventDay.getCalendar());
+            calendarView.setHighlightedDays(calendars);
+            Date date = eventDay.getCalendar().getTime();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String dateString = simpleDateFormat.format(date);
+            int totalCost = 0;
+            for (int i = 0; i < this.dates.size(); i++) {
+                if (isSameDay(this.dates.get(i), dateString)) {
+                    totalCost += this.prices.get(i);
+                }
+            }
+            textViewSpent.setText("Total Spent: $" + totalCost);
+        });
+        return view;
+    }
+
+    /**
+     * This function compares two days to see if they are equal.
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isSameDay(String date1, String date2) {
+        int month1 = Integer.parseInt(date1.substring(0,2));
+        int month2 = Integer.parseInt(date2.substring(0,2));
+
+        int day1 = Integer.parseInt(date1.substring(3,5));
+        int day2 = Integer.parseInt(date2.substring(3,5));
+
+        int year1 = Integer.parseInt(date1.substring(6));
+        int year2 = Integer.parseInt(date2.substring(6));
+
+        boolean error = false;
+        if (year1 != year2) {
+            error = true;
+        }
+        if (month1 != month2) {
+            error = true;
+        }
+        if (day1 != day2) {
+            error = true;
+        }
+        return !error;
     }
 }
