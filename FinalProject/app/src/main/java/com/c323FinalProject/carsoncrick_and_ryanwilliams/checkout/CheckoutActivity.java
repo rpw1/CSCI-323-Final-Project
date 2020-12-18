@@ -93,11 +93,14 @@ public class CheckoutActivity extends AppCompatActivity {
     //place order button handler
     public void placeOrder(View view) throws IOException {
         String addressString = this.textViewAddress.getText().toString();
+        Restaurant restaurant = restaurantItemDao.getRestaurantById(restaurantId);
+        String restaurantAddress = restaurant.getRestaurantLocation();
         if (!addressString.equals("Delivery Address: ")) {
             Intent intent = new Intent(this, OrdersActivity.class);
             intent.putExtra("id", restaurantId);
             intent.putExtra("name", this.restaurantName);
             intent.putExtra("address", addressString);
+            intent.putExtra("restaurant address", restaurantAddress);
             beginService(addressString);
             startActivity(intent);
         } else {

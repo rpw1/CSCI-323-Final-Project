@@ -319,7 +319,7 @@ public abstract class RestaurantDatabase extends RoomDatabase {
                 String jsonData = downloadFromURl(
                         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
                                 lat + "," + longi +
-                                "&radius=17000&type=restaurant&keyword=" + restaurantNames.get(i) +
+                                "&radius=50000&type=restaurant&keyword=" + restaurantNames.get(i) +
                                 "&key=AIzaSyD-Qc1-th6MZ2BcSYexbyzjxcFou-ga9WU");
                 try {
                     threadAddresses.add(parseJsonData(cxt, jsonData));
