@@ -10,6 +10,9 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrder;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDao;
+import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.PlacedOrderDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.OrderItem;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantDatabase;
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.restaurantDatabse.RestaurantItemDao;
@@ -49,11 +52,13 @@ public class OrdersActivity extends AppCompatActivity {
 
         String foodItems = "";
         int price = 0;
+        int quantity = 0;
         for (OrderItem orderItem : this.orderItems) {
             String quantityString = "Quantity: " + orderItem.getOrderItemQuantity();
             String nameString = orderItem.getOrderItemName();
             int padding = 50 - nameString.length();
             foodItems += String.format("%s %" + padding + "s %n", nameString, quantityString);
+            quantity += orderItem.getOrderItemQuantity();
             price += orderItem.getOrderItemPrice() * orderItem.getOrderItemQuantity();
             orderItem.setOrderItemQuantity(0);
             this.restaurantItemDao.updateOrderItems(orderItem);
@@ -65,10 +70,16 @@ public class OrdersActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        this.textViewDate.setText("Date: " + simpleDateFormat.format(date));
+        String dateString = simpleDateFormat.format(date);
+        this.textViewDate.setText("Date: " + dateString);
         SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat("HH:mm a");
-        this.textViewTime.setText("Time: " + simpleDateFormatTime.format(date));
+        String timeString = simpleDateFormatTime.format(date);
+        this.textViewTime.setText("Time: " + timeString);
         this.textViewAddress.setText(this.addressString);
+        PlacedOrderDatabase placedOrderDatabase = PlacedOrderDatabase.getPlacedOrderDatabase(this);
+        PlacedOrderDao placedOrderDao = placedOrderDatabase.getPlacedOrderItemDao();
+        placedOrderDao.insertPlacedOrder(new PlacedOrder(price, quantity, dateString, timeString,
+                restaurantName, addressString, restaurantId, foodItems));
     }
 
     @Override

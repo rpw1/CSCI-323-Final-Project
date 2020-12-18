@@ -39,7 +39,7 @@ public class PlacedOrder {
     @ColumnInfo(name = "restaurant_id")
     int restaurant_id;
 
-    public PlacedOrder(int total_price, int total_quantity, String date, String time, String restaurant_name, String address, int restaurant_id) {
+    public PlacedOrder(int total_price, int total_quantity, String date, String time, String restaurant_name, String address, int restaurant_id, String ordered_food_items) {
         this.total_price = total_price;
         this.total_quantity = total_quantity;
         this.date = date;
@@ -47,6 +47,7 @@ public class PlacedOrder {
         this.restaurant_name = restaurant_name;
         this.address = address;
         this.restaurant_id = restaurant_id;
+        this.ordered_food_items = ordered_food_items;
     }
 
     public int getPlaced_order_id() {

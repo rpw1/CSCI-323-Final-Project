@@ -18,6 +18,7 @@ import com.c323FinalProject.carsoncrick_and_ryanwilliams.placedOrderDatabase.Pla
 import com.c323FinalProject.carsoncrick_and_ryanwilliams.recentRestaurants.RecentRestaurantsAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecentRestaurantsFragment extends Fragment {
@@ -31,9 +32,6 @@ public class RecentRestaurantsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getContext();
-        PlacedOrderDatabase placedOrderDatabase = PlacedOrderDatabase.getPlacedOrderDatabase(context);
-        PlacedOrderDao placedOrderDao = placedOrderDatabase.getPlacedOrderItemDao();
-        this.placedOrders = placedOrderDao.getAllPlacedOrders();
     }
 
     @Override
@@ -47,6 +45,9 @@ public class RecentRestaurantsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        PlacedOrderDatabase placedOrderDatabase = PlacedOrderDatabase.getPlacedOrderDatabase(context);
+        PlacedOrderDao placedOrderDao = placedOrderDatabase.getPlacedOrderItemDao();
+        this.placedOrders = placedOrderDao.getAllPlacedOrders();
         List<String> restaurantNames = new ArrayList<>();
         List<Integer> restaurantIds = new ArrayList<>();
         for (PlacedOrder placedOrder : this.placedOrders) {
@@ -56,6 +57,8 @@ public class RecentRestaurantsFragment extends Fragment {
                 restaurantIds.add(placedOrder.getRestaurantId());
             }
         }
+        Collections.reverse(restaurantIds);
+        Collections.reverse(restaurantNames);
         RecentRestaurantsAdapter recentRestaurantsAdapter = new RecentRestaurantsAdapter(this.context, restaurantNames, restaurantIds);
         this.recyclerView.setAdapter(recentRestaurantsAdapter);
     }
