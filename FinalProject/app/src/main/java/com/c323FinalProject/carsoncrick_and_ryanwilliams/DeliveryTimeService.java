@@ -28,7 +28,7 @@ public class DeliveryTimeService extends IntentService {
         try {
             Log.v("stuff", "thread going to sleep");
             //sleep the thread for however long the delivery is
-            Thread.sleep((long) delivery_time);
+            Thread.sleep((long) delivery_time * 50);
             //build the notification
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "serviceNotification")
                     .setSmallIcon(R.drawable.ic_baseline_fastfood_24)
